@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const authMiddleware = require('../middlewares/auth.middleware')
+
 const usersController = require('../controllers/users.controller')
 const authController = require('../controllers/auth.controller')
 
@@ -11,11 +13,12 @@ router.get('/', (req, res, next) => {
 
 /* Auth */
 
-router.post('/login', authController.login)
+router.post('/login', authMiddleware.isNotAuthenticated, authController.login)
 
 /* Users */
 
 router.post('/users', authController.create)
+router.get('/users/me', authMiddleware.isAuthenticated, usersController.getCurrentUser)
 router.get('/users/:id', usersController.getUserById)
 
 module.exports = router
