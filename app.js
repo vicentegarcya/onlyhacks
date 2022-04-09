@@ -5,6 +5,7 @@ const createError = require('http-errors')
 const logger = require('morgan')
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const cors = require('cors')
 
 require('./config/db.config')
 
@@ -12,6 +13,7 @@ const app = express()
 
 /* Middlewares */
 
+app.use(cors())
 app.use(express.json())
 app.use(logger('dev'))
 
